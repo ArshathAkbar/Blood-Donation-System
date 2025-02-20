@@ -1,0 +1,13 @@
+{
+  "name": "blood-donation-system",
+  "version": "1.0.0",
+  "description": "Blood donation management system",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.48.1"
+  }
+}

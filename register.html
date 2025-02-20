@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Registration</title>
+    <style>
+        body {
+            background-color: white;
+            font-family: Arial, sans-serif;
+            color: black;
+        }
+
+        .form-container {
+            width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: white;
+        }
+
+        h2 {
+            text-align: center;
+            color: red;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+
+        select, input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid red;
+            border-radius: 5px;
+            background-color: white;
+            color: black;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            height: 60px;
+            resize: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        button {
+            width: 100%;
+            background-color: red;
+            color: white;
+            padding: 10px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkred;
+        }
+
+        small {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="form-container">
+        <h2>Donor Registration</h2>
+
+        <form id="donor-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" placeholder="Email" required>
+
+            <label for="phone">Phone Number:</label>
+            <input type="tel" id="phone" name="phone" required>
+
+            <label for="gender">Gender</label>
+            <select id="gender">
+                <option value="">Select</option>
+                <option>Male</option>
+                <option>Female</option>
+                <option>Others</option>
+            </select>
+
+            <label for="age">Age</label>
+            <input type="text" id="age" placeholder="Enter your age">
+
+            <label for="address">Address:</label>
+            <textarea id="address" name="address" rows="3" required></textarea>
+
+            <label for="blood-group">Blood Group:</label>
+            <select id="blood-group" required>
+                <option value="">Select Blood Group</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+
+            <label for="location">City:</label>
+            <input type="text" id="location" placeholder="City" required>
+
+            <label for="govtProof">Upload Aadhaar/DL/PAN Card for verification:</label>
+            <select id="govtProof" name="govtProof" onchange="showUploadField()">
+                <option value="">Select an option</option>
+                <option value="aadhaar">Aadhaar Card</option>
+                <option value="dl">Driving License</option>
+                <option value="pan">PAN Card</option>
+            </select>
+
+            <!-- Hidden File Upload Field -->
+            <div id="uploadField" class="hidden">
+                <label for="proofUpload">Upload Selected Document (Max: 100KB)</label>
+                <input type="file" id="proofUpload" name="proofUpload" accept="image/*,.pdf" onchange="validateFileSize()">
+                <small id="fileError"></small>
+            </div>
+
+            <label for="smoke">Do you smoke?</label>
+            <select id="smoke" onchange="toggleSmokingField()">
+                <option value="">Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <div id="smokeFreqContainer" class="hidden">
+                <label for="smokeFreq">How often do you smoke per week?</label>
+                <input type="text" id="smokeFreq" placeholder="Enter number of times per week">
+            </div>
+
+            <label for="drink">Do you drink?</label>
+            <select id="drink" onchange="toggleDrinkingField()">
+                <option value="">Select</option>
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+            </select>
+
+            <div id="drinkFreqContainer" class="hidden">
+                <label for="drinkFreq">How often do you drink per month?</label>
+                <input type="text" id="drinkFreq" placeholder="Enter number of times per month">
+            </div>
+
+            <label for="health">Any other health issues:</label>
+            <textarea id="health" placeholder="Mention here..."></textarea>
+
+            <button type="submit">Register as Donor</button>
+        </form>
+
+        <p id="donor-message"></p>
+
+    </div>
+
+    <script>
+        function showUploadField() {
+            let dropdown = document.getElementById("govtProof");
+            let uploadDiv = document.getElementById("uploadField");
+
+            if (dropdown.value !== "") {
+                uploadDiv.classList.remove("hidden");
+            } else {
+                uploadDiv.classList.add("hidden");
+            }
+        }
+
+        function validateFileSize() {
+            let fileInput = document.getElementById("proofUpload");
+            let fileError = document.getElementById("fileError");
+
+            if (fileInput.files.length > 0) {
+                let fileSize = fileInput.files[0].size / 1024; // Convert to KB
+
+                if (fileSize > 100) {
+                    fileError.innerText = "File size must be less than 100KB!";
+                    fileInput.value = ""; // Clear file selection
+                } else {
+                    fileError.innerText = ""; // Clear error message
+                }
+            }
+        }
+
+        function toggleSmokingField() {
+            var smokeSelect = document.getElementById("smoke");
+            var smokeFreqContainer = document.getElementById("smokeFreqContainer");
+            
+            if (smokeSelect.value === "Yes") {
+                smokeFreqContainer.classList.remove("hidden");
+            } else {
+                smokeFreqContainer.classList.add("hidden");
+            }
+        }
+
+        function toggleDrinkingField() {
+            var drinkSelect = document.getElementById("drink");
+            var drinkFreqContainer = document.getElementById("drinkFreqContainer");
+            
+            if (drinkSelect.value === "Yes") {
+                drinkFreqContainer.classList.remove("hidden");
+            } else {
+                drinkFreqContainer.classList.add("hidden");
+            }
+        }
+    </script>
+
+    <script src="supabaseClient.js"></script>
+    <script src="donor.js"></script>
+
+</body>
+</html>
+
